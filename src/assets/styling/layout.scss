@@ -1,0 +1,19 @@
+.container-layout{
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar{
+  max-width: 230px;
+  width: 100%;
+  height: 100vh; /* Adjust this as per your layout requirement */
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.navbar{
+  max-width: 1210px;
+  width: 100%;
+  background-color: #F8F8F8;
+}

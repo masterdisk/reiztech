@@ -1,6 +1,10 @@
 // tsconfig.json
 {
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "moduleResolution": "node",
     "types": ["vitest/globals"]
   }
 }
