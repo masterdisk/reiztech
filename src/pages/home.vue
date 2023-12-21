@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Dashboard from "../layouts/dashboard.vue";
 import FilterBar from "../components/FilterBar.vue";
+import ListViewer from "../components/ListViewer.vue";
 </script>
 
 <template>
@@ -10,6 +11,9 @@ import FilterBar from "../components/FilterBar.vue";
     <div class="filters-container">
       <FilterBar title="Title"  filter="title"/>
       <FilterBar title="Brand"  filter="brand"/>
+    </div>
+    <div class="list-container">
+     <ListViewer/>
     </div>
   </div>
 </Dashboard>
@@ -31,5 +35,16 @@ import FilterBar from "../components/FilterBar.vue";
   align-items: center;
   margin-top: 30px;
   gap: 22px;
+}
+
+.list-container {
+  max-width: 1130px;
+  width: calc(100% + 1px);
+  margin-top: 34px;
+  max-height: 750px;
+  overflow-y: scroll;
+  border-radius: 3px;
+  background: white;
+
 }
 </style>
