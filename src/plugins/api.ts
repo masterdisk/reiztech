@@ -1,7 +1,33 @@
 import Products from "../models/products";
 import Product from "../models/product";
+import {fetchHelper} from "./fetchHelper";
+
+export interface ProductResponse {
+    id: number;
+    title: string;
+    description: string;
+    brand: string;
+    category: string;
+    discountPercentage: number;
+    images: string[];
+    price: number;
+    rating: number;
+    stock: number;
+    thumbnail: string;
+}
+
+export interface ProductsResponse {
+    limit: number;
+    products: Product[];
+    skip: number;
+    total: number;
+}
+
 
 export default {
+     async getProductsUsingHelper(): Promise<Products> {
+        return fetchHelper<Products>('https://dummyjson.com/products');
+    },
     async getProducts(): Promise<Products | null> {
         // Return the Promise itself
         return fetch('https://dummyjson.com/products')
