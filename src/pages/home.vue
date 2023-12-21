@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import FilterBar from "../components/FilterBar.vue";
 import ListViewer from "../components/ListViewer.vue";
-
-const emit = defineEmits(['changeRoute'])
-
-function changeRoute(componentName:string) {
-    emit('changeRoute', componentName)
-}
 </script>
 
 <template>
