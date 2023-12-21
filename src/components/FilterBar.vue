@@ -1,16 +1,39 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
-const {title, filter} = defineProps({
+const emit = defineEmits(['searchProducts'])
+
+const {title} = defineProps({
   title: {
     type: String,
     required: true
-  },
-  filter: {
-    type: String,
-    required: true
-  },
+  }
 });
+
+
+let text = ref<string>('');
+
+// Debounce function with type assertion for the timer
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+  let debounceTimer: any;
+  return function(...args: Parameters<T>) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      func(...args); // Call func directly without using 'this'
+    }, delay);
+  };
+}
+
+// Debounced search function
+const debouncedSearch = debounce(() => {
+  emit('searchProducts', text.value);
+}, 1500);
+
+watch(text, (newValue, oldValue) => {
+  console.log('old value: '+oldValue)
+  console.log('new value: '+newValue)
+  debouncedSearch();
+})
 
 
 </script>
@@ -19,7 +42,7 @@ const {title, filter} = defineProps({
 <div>
   <div class="container">
     <span class="body-text"> {{title}}</span>
-    <input type="text" class="input input-text" :placeholder="'Enter ' + title"/>
+    <input v-model="text" type="text" class="input input-text" :placeholder="'Enter ' + title"/>
   </div>
 </div>
 </template>

@@ -6,10 +6,6 @@ import ListViewer from "../components/ListViewer.vue";
 <template>
   <div class="container">
     <span class="title"> Products Information</span>
-    <div class="filters-container">
-      <FilterBar title="Title"  filter="title"/>
-      <FilterBar title="Brand"  filter="brand"/>
-    </div>
     <div class="list-container">
      <ListViewer/>
     </div>
@@ -26,14 +22,6 @@ import ListViewer from "../components/ListViewer.vue";
   background-color: #F8F8F8;
 }
 
-.filters-container{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 30px;
-  gap: 22px;
-}
 
 .list-container {
   max-width: 1130px;

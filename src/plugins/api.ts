@@ -40,7 +40,7 @@ export default {
     },
     async getProductsByBrand(brand : string): Promise<Products | null> {
         // Return the Promise itself
-        return fetch('https://dummyjson.com/products/'+brand)
+        return fetch('https://dummyjson.com/products/search?q='+brand)
             .then(res => res.json())
             .then((data: Products) => {
                 return data; // This will be wrapped in a Promise automatically

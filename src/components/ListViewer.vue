@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue";
 import Products from "../models/products";
 import Product from "../models/product";
 import api from "../plugins/api";
+import FilterBar from "./FilterBar.vue";
 
 const checkboxIcon = ref<string>('static/icons/listViewer/checkbox.svg');
 
@@ -47,6 +48,7 @@ function toggleSortByTitle() {
   }
 }
 
+
 function toggleSortByBrand() {
   if (fetchedProducts.value) {
     if (isSortedByBrand.value) {
@@ -62,9 +64,36 @@ function toggleSortByBrand() {
   }
 }
 
+async function getProductsByTitle(title: string) {
+  await api.getProductsByTitle(title).then(data => {
+    if (data !== null) {
+      fetchedProducts.value = new Products(data.limit, data.products, data.skip, data.total);
+      defaultProducts.value = [...data.products];
+      sortedProducts.value = [...data.products];
+      sortedProductsByBrand.value = [...data.products];
+    }
+  })
+}
+
+async function getProductsByBrand(brand: string) {
+  await api.getProductsByBrand(brand).then(data => {
+    if (data !== null) {
+      fetchedProducts.value = new Products(data.limit, data.products, data.skip, data.total);
+      defaultProducts.value = [...data.products];
+      sortedProducts.value = [...data.products];
+      sortedProductsByBrand.value = [...data.products];
+    }
+  })
+}
+
 </script>
 
 <template>
+  <div class="filters-container">
+    <FilterBar @searchProducts="getProductsByTitle" title="Title" />
+    <FilterBar @searchProducts="getProductsByBrand" title="Brand" />
+  </div>
+  <div class="list-container">
   <div class="product-table">
     <div class="table-header fixed-content">
       <div class="icon-selector">
@@ -89,9 +118,20 @@ function toggleSortByBrand() {
       <div class="row-item list-item-body opacity-65">{{ product.rating }}</div>
     </div>
   </div>
+  </div>
 </template>
 
 <style scoped>
+
+.filters-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 22px;
+  background: #F8F8F8;
+  padding-bottom: 34px ;
+}
+
 .product-table {
   display: grid;
   grid-template-columns: repeat(7, auto); /* 7 columns, each with auto width */
