@@ -1,14 +1,16 @@
 <script lang="ts" setup>
 import SideBar from "../components/SideBar.vue";
+import TopBar from "../components/TopBar.vue";
 </script>
 
 <template>
   <div class="container-layout">
     <div class="sidebar">
-      <SideBar />
+      <SideBar/>
     </div>
     <div class="navbar">
-      <p>navbar</p>
+      <TopBar/>
+      <slot/>
     </div>
   </div>
 </template>

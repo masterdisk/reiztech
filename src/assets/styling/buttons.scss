@@ -1,0 +1,27 @@
+.icon-button {
+  border: 1px solid transparent;
+
+  background-color: white;
+  border-radius: 3px;
+  position: relative;
+  height: 52px;
+  width: 52px;
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  > span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #FFBC0F;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  > .icon{
+    height: 24px;
+    width: 24px;
+  }
+}
