@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import Dashboard from "../layouts/dashboard.vue";
 import FilterBar from "../components/FilterBar.vue";
 import ListViewer from "../components/ListViewer.vue";
+
+const emit = defineEmits(['changeRoute'])
+
+function changeRoute(componentName:string) {
+    emit('changeRoute', componentName)
+}
 </script>
 
 <template>
-<Dashboard>
   <div class="container">
     <span class="title"> Products Information</span>
     <div class="filters-container">
@@ -16,7 +20,6 @@ import ListViewer from "../components/ListViewer.vue";
      <ListViewer/>
     </div>
   </div>
-</Dashboard>
 </template>
 
 <style scoped>
@@ -26,6 +29,7 @@ import ListViewer from "../components/ListViewer.vue";
   flex-direction: column;
   justify-content: start;
   align-items: start;
+  background-color: #F8F8F8;
 }
 
 .filters-container{
@@ -45,6 +49,9 @@ import ListViewer from "../components/ListViewer.vue";
   overflow-y: scroll;
   border-radius: 3px;
   background: white;
+}
 
+.title{
+  color: #000;
 }
 </style>

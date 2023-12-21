@@ -34,9 +34,11 @@ const {title, filter} = defineProps({
 
 .body-text{
   margin-bottom: 16px;
+  color: #000;
 }
 
 .input{
+  background: white;
   width: 240px;
   height: 22px;
   display: inline-flex;

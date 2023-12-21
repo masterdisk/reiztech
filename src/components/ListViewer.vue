@@ -1,49 +1,37 @@
 <script lang="ts" setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import Products from "../models/products";
+import Product from "../models/product";
+import api from "../plugins/api";
 
-interface Product {
-  id: number;
-  title: string;
-  description: string;
-  brand: string;
-  category: string;
-  discountPercentage: number;
-  images: string[];
-  price: number;
-  rating: number;
-  stock: number;
-  thumbnail: string;
-}
+const emit = defineEmits(['changeRoute'])
 
-interface FetchedData {
-  limit: number;
-  products: Product[];
-  skip: number;
-  total: number;
-}
-
-const fetchedProducts = ref<FetchedData | null>(null);
-const products = ref<Product[]>([]);
-
-fetch('https://dummyjson.com/products')
-    .then(res => res.json())
-    .then((data: FetchedData) => {
-      fetchedProducts.value = data;
-      products.value = data.products;
-    })
-    .catch(error => {
-      console.error("Failed to fetch products:", error);
-    });
 
 const checkboxIcon = ref<string>('static/icons/listViewer/checkbox.svg');
+
+let fetchedProducts = ref<Products | null>(null);
+
+onMounted(async () => {
+  await api.getProducts().then(data => {
+    if (data !== null) {
+      fetchedProducts.value = new Products(data.limit, data.products, data.skip, data.total);
+    }
+  })
+})
+
+function getMoreDetails (product: Product) : void  {
+  window.location.href = (`/moreDetails?productId=${product.id}`)
+}
 
 
 </script>
 
 <template>
   <div class="product-table">
-    <div class="table-header">
+    <div class="table-header fixed-content">
+      <div class="icon-selector">
       <img :src="checkboxIcon" alt="" class="icon" /> <!-- Use img tag for SVG -->
+      </div>
       <div class="header-item list-item-title">Title</div>
       <div class="header-item list-item-title">Category</div>
       <div class="header-item list-item-title">Brand</div>
@@ -51,14 +39,16 @@ const checkboxIcon = ref<string>('static/icons/listViewer/checkbox.svg');
       <div class="header-item list-item-title">Stock</div>
       <div class="header-item list-item-title">Rating</div>
     </div>
-    <div class="table-row" v-for="product in products" :key="product.id">
-      <img :src="checkboxIcon" alt="" class="icon" /> <!-- Use img tag for SVG -->
-      <div class="row-item list-item-body">{{ product.title }}</div>
-      <div class="row-item list-item-body">{{ product.category }}</div>
-      <div class="row-item list-item-body">{{ product.brand }}</div>
-      <div class="row-item list-item-body">{{ product.price }}</div>
-      <div class="row-item list-item-body">{{ product.stock }}</div>
-      <div class="row-item list-item-body">{{ product.rating }}</div>
+    <div v-if="fetchedProducts !== null" class="table-row" v-for="product in fetchedProducts.products" :key="product.id">
+      <div class="icon-selector">
+        <img :src="checkboxIcon" alt="" class="icon" /> <!-- Use img tag for SVG -->
+      </div>
+      <div @click="getMoreDetails(<Product>product)" class="row-item list-item-body "><span class="clickable">{{ product.title }}</span></div>
+      <div class="row-item list-item-body opacity-65">{{ product.category }}</div>
+      <div class="row-item list-item-body opacity-65">{{ product.brand }}</div>
+      <div class="row-item list-item-body opacity-65">{{ product.price }}</div>
+      <div class="row-item list-item-body opacity-65">{{ product.stock }}</div>
+      <div class="row-item list-item-body opacity-65">{{ product.rating }}</div>
     </div>
   </div>
 </template>
@@ -66,14 +56,22 @@ const checkboxIcon = ref<string>('static/icons/listViewer/checkbox.svg');
 <style scoped>
 .product-table {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, auto); /* 7 columns, each with auto width */
   text-align: start;
+}
+.icon-selector{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
 }
 
 .table-header {
   background-color: #f3f3f3;
   display: contents;
   text-align: start;
+  color: #000;
 }
 
 .icon{
@@ -83,12 +81,14 @@ const checkboxIcon = ref<string>('static/icons/listViewer/checkbox.svg');
 }
 
 .header-item{
-  padding: 24px 24px 24px 24px;
+  padding: 24px 24px 29px 0;
   border-bottom: 1px solid #F2F2F2;
-
+  display: flex;
+justify-content: start;
 }
 .row-item {
-  padding: 30px 0 24px 24px;
+  color: #000;
+  padding: 30px 24px 24px 0;
   border-bottom: 1px solid #F2F2F2;
 }
 
@@ -99,6 +99,11 @@ const checkboxIcon = ref<string>('static/icons/listViewer/checkbox.svg');
 .row-item {
   background-color: #fff;
   text-align: start;
+}
+
+.clickable{
+  cursor: pointer;
+  color: rgba(11, 99, 248, 1);
 }
 
 </style>
