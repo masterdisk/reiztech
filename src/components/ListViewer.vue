@@ -44,7 +44,7 @@ function toggleSortByTitle() {
     // Toggle the sorting state
     isSortedAlphabetically.value = !isSortedAlphabetically.value;
     isSortedByBrand.value = false;
-
+    toggleIconSortByTitle()
   }
 }
 
@@ -61,6 +61,7 @@ function toggleSortByBrand() {
     // Toggle the sorting state
     isSortedByBrand.value = !isSortedByBrand.value;
     isSortedAlphabetically.value = false;
+    toggleIconSortByBrand()
   }
 }
 
@@ -86,12 +87,38 @@ async function getProductsByBrand(brand: string) {
   })
 }
 
+function toggleIconSortByTitle() {
+  const icon = document.getElementById("sortIconTitle");
+  if (icon) {
+    icon.textContent = icon.textContent === "↑" ? "↓" : "↑";
+  }
+}
+
+function toggleIconSortByBrand() {
+  const icon = document.getElementById("sortIconBrand");
+  if (icon) {
+    icon.textContent = icon.textContent === "↑" ? "↓" : "↑";
+  }
+}
+
+
+
 </script>
 
 <template>
+  <div class="wrapper-top-bar">
   <div class="filters-container">
     <FilterBar @searchProducts="getProductsByTitle" title="Title" />
     <FilterBar @searchProducts="getProductsByBrand" title="Brand" />
+  </div>
+    <div class="filter-buttons-wrapper">
+      <button id="sortButtonTitle" @click="toggleSortByTitle">
+        Sort By Title<span id="sortIconTitle">↑</span>
+      </button>
+      <button id="sortButtonBrand" @click="toggleSortByBrand">
+        Sort By Brand<span id="sortIconBrand">↑</span>
+      </button>
+    </div>
   </div>
   <div class="list-container">
   <div class="product-table">
@@ -99,9 +126,9 @@ async function getProductsByBrand(brand: string) {
       <div class="icon-selector">
         <img :src="checkboxIcon" alt="" class="icon" /> <!-- Use img tag for SVG -->
       </div>
-      <div class="header-item list-item-title"><span @click="toggleSortByTitle">Title</span></div>
+      <div class="header-item list-item-title">Title</div>
       <div class="header-item list-item-title">Category</div>
-      <div class="header-item list-item-title"><span @click="toggleSortByBrand">Brand</span></div>
+      <div class="header-item list-item-title">Brand</div>
       <div class="header-item list-item-title">Price</div>
       <div class="header-item list-item-title">Stock</div>
       <div class="header-item list-item-title">Rating</div>
@@ -122,15 +149,6 @@ async function getProductsByBrand(brand: string) {
 </template>
 
 <style scoped>
-
-.filters-container{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 22px;
-  background: #F8F8F8;
-  padding-bottom: 34px ;
-}
 
 .product-table {
   display: grid;
@@ -186,6 +204,69 @@ async function getProductsByBrand(brand: string) {
 .clickable{
   cursor: pointer;
   color: rgba(11, 99, 248, 1);
+}
+
+#sortButtonTitle, #sortButtonBrand {
+  background-color:#013CC6; /* Green background */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+#sortIconBrand, #sortIconTitle{
+  margin-left: 6px;
+}
+
+@media only screen and (max-width: 980px) {
+  .filters-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 22px;
+    background: #F8F8F8;
+    padding-bottom: 34px ;
+  }
+
+  .filter-buttons-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 22px;
+    background: #F8F8F8;
+    padding-bottom: 34px ;
+  }
+
+}
+
+@media only screen and (min-width: 980px) {
+
+  .wrapper-top-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 22px;
+    background: #F8F8F8;
+    padding-bottom: 34px ;
+  }
+
+  .filters-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 22px;
+    background: #F8F8F8;
+    padding-bottom: 34px ;
+  }
+
 }
 
 </style>

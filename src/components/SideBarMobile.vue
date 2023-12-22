@@ -88,7 +88,7 @@ const toggleMenu = () => {
 }
 
 .wrapper{
-  padding: 55px 29px 0px 29px;
+  padding: 55px 29px 55px 29px;
   display: flex;
   align-items: center;
   justify-content: space-between;

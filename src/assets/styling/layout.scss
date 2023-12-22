@@ -13,8 +13,17 @@
   background-color: white;
 }
 
-.navbar{
-  max-width: 1210px;
-  width: 100%;
-  background-color: #F8F8F8;
+@media only screen and (max-width: 1440px) {
+  .navbar{
+    max-width: 1210px;
+    width: 100%;
+    background-color: #F8F8F8;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .navbar{
+    width: 100%;
+    background-color: #F8F8F8;
+  }
 }
